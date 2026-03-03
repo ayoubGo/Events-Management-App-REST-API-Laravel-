@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+
+
+class AuthController
+{
+    //
+
+    public function login(Request $request){
+
+        $request->validate([
+            "email" => "required|emamil",
+            "password" => "required"
+        ]);
+
+
+        $user = \App\Models\User::where("email" , $request->email)->first();
+
+        if(!$user){
+            throw ValidationException::withMessages([
+                "email" => ["the provided credentials are incorrect. "]
+            ]);
+        }
+
+        if(!Hash::check($request->password , $user->password)){
+            throw ValidationException::withMessages([
+                "email" => "the provided credentials are incorrect. "
+            ]);
+        }
+
+        $token = $user->createToken("api-token")->plainTextToken;
+
+        return response()->json([
+            "token" => $token
+        ]);
+    }
+}
