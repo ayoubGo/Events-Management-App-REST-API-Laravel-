@@ -14,7 +14,7 @@ class AuthController
     public function login(Request $request){
 
         $request->validate([
-            "email" => "required|emamil",
+            "email" => "required|email",
             "password" => "required"
         ]);
 
