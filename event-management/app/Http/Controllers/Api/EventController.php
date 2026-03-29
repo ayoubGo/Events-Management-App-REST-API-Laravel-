@@ -21,6 +21,7 @@ class EventController extends Controller
     public function __construct(){
 
         $this->middleware("auth:sanctum")->except(["index", "show"]);
+        $this->middleware("throttle:60,1")->only(["store","update", "destroy"]);
         $this->authorizeResource(Event::class , "event");
     }
 
@@ -78,7 +79,7 @@ class EventController extends Controller
         // }
 
         // $this->authorize("update-event",$event);
-        // ! laravel do it for as thanks to policies
+        // ! laravel do it for us thanks to policies
 
          $event->update(
             $request->validate([

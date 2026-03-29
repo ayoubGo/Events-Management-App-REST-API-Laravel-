@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Attendee;
 use App\Models\Event;
+use Illuminate\Cache\RateLimiter;
+use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
